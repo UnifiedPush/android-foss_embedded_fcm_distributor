@@ -10,7 +10,7 @@ fun getFCMToken(context: Context?): String? {
 
 fun getDistributor(context: Context): String {
     return context.getSharedPreferences(PREF_MASTER, Context.MODE_PRIVATE)?.getString(
-        org.unifiedpush.android.connector.PREF_MASTER_DISTRIBUTOR, ""
+        PREF_MASTER_DISTRIBUTOR, ""
     ) ?: ""
 }
 
