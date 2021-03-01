@@ -57,7 +57,7 @@ afterEvaluate {
 
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'org.unifiedpush.android'
-                artifactId = 'embedded_fcm_distributor'
+                artifactId = 'android-embedded_fcm_distributor'
                 version = '1.0.0'
             }
         }
