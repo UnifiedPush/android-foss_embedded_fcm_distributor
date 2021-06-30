@@ -5,6 +5,7 @@ import android.content.Intent
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import org.json.JSONObject
 import org.unifiedpush.android.embedded_fcm_distributor.*
 
 class FirebaseRedirectionService : FirebaseMessagingService() {
@@ -22,7 +23,7 @@ class FirebaseRedirectionService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d("UP-FCM", "Firebase onMessageReceived ${remoteMessage.messageId}")
-        val message = remoteMessage.data["body"]
+        val message = remoteMessage.data["body"] ?: JSONObject(remoteMessage.data as Map<*, *>).toString()
         val instance = remoteMessage.data["instance"] ?: INSTANCE_DEFAULT
         val intent = Intent()
         intent.action = ACTION_MESSAGE
