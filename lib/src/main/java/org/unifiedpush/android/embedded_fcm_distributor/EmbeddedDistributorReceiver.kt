@@ -30,6 +30,12 @@ open class EmbeddedDistributorReceiver(private val handler: GetEndpointHandler) 
                     Log.d("UP-Registration", "FCMToken: $_fcmToken")
                     saveFCMToken(context, _fcmToken)
                     sendNewEndpoint(context, token, _fcmToken, instance)
+                }.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d("UP-Registration", "Token received successfully")
+                    } else {
+                        Log.e("UP-Registration", "FCMToken registration failed: ${task.exception?.localizedMessage}")
+                    }
                 }
             }
             ACTION_UNREGISTER -> {
