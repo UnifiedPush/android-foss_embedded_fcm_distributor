@@ -5,36 +5,40 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.google.firebase.messaging.FirebaseMessaging
+import org.unifiedpush.android.embedded_fcm_distributor.Utils.getFCMToken
+import org.unifiedpush.android.embedded_fcm_distributor.Utils.getInstance
+import org.unifiedpush.android.embedded_fcm_distributor.Utils.saveFCMToken
+import org.unifiedpush.android.embedded_fcm_distributor.Utils.sendNewEndpoint
 
-interface GetEndpointHandler {
-    fun getEndpoint(context: Context?, token: String, instance: String): String
-}
+const val TAG = "UP-Embedded_distributor"
 
-/**
- * EMBEDDED FCM DISTRIBTUOR
- */
-open class EmbeddedDistributorReceiver(private val handler: GetEndpointHandler) : BroadcastReceiver() {
+open class EmbeddedDistributorReceiver : BroadcastReceiver() {
+    open fun getEndpoint(context: Context?, token: String, instance: String): String {
+        return ""
+    }
+
     override fun onReceive(context: Context?, intent: Intent?) {
         val token = intent!!.getStringExtra(EXTRA_TOKEN)
         val instance = token?.let { getInstance(context!!, it) }
                 ?: return
         when (intent.action) {
             ACTION_REGISTER -> {
-                Log.d("UP-MessagingReceiver", "Fake Distributor register")
+                Log.d(TAG, "Fake Distributor register")
                 saveGetEndpoint(context)
                 val fcmToken = getFCMToken(context)
                 fcmToken?.let {
                     sendNewEndpoint(context, token, it, instance)
                 }
                 FirebaseMessaging.getInstance().token.addOnSuccessListener { _fcmToken ->
-                    Log.d("UP-Registration", "FCMToken: $_fcmToken")
+                    Log.d(TAG, "FCMToken: $_fcmToken")
                     saveFCMToken(context, _fcmToken)
                     sendNewEndpoint(context, token, _fcmToken, instance)
                 }.addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        Log.d("UP-Registration", "Token received successfully")
+                        Log.d(TAG, "Token received successfully")
                     } else {
-                        Log.e("UP-Registration", "FCMToken registration failed: ${task.exception?.localizedMessage}")
+                        Log.e(TAG, "FCMToken registration failed: " +
+                                "${task.exception?.localizedMessage}")
                     }
                 }
             }
@@ -53,6 +57,7 @@ open class EmbeddedDistributorReceiver(private val handler: GetEndpointHandler) 
         val prefs = context!!.getSharedPreferences(PREF_MASTER, Context.MODE_PRIVATE)
         val ff = 0xff.toChar().toString()
         prefs.edit().putString(EXTRA_GET_ENDPOINT,
-            this@EmbeddedDistributorReceiver.handler.getEndpoint(context, "$ff$ff.TOKEN.$ff$ff", "$ff$ff.INSTANCE.$ff$ff")).commit()
+            getEndpoint(context, "$ff$ff.TOKEN.$ff$ff", "$ff$ff.INSTANCE.$ff$ff")
+        ).commit()
     }
 }
