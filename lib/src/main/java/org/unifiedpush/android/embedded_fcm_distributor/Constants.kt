@@ -5,10 +5,9 @@ package org.unifiedpush.android.embedded_fcm_distributor
  * https://github.com/UnifiedPush/UP-spec/blob/main/specifications.md
  */
 
-const val PREF_MASTER = "UP-lib"
-const val PREF_MASTER_TOKEN = "UP-lib_token"
-const val PREF_MASTER_INSTANCE = "UP-lib_instances"
-const val PREF_MASTER_DISTRIBUTOR = "UP-lib_distributor"
+const val PREF_MASTER = "UP-embedded_fcm"
+const val PREF_MASTER_TOKEN = "$PREF_MASTER:token"
+const val PREF_MASTER_TOKENS = "$PREF_MASTER:tokens"
 
 const val ACTION_NEW_ENDPOINT = "org.unifiedpush.android.connector.NEW_ENDPOINT"
 const val ACTION_REGISTRATION_FAILED = "org.unifiedpush.android.connector.REGISTRATION_FAILED"
