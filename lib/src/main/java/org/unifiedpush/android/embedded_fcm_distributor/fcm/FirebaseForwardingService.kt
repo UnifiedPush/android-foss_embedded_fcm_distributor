@@ -1,6 +1,5 @@
 package org.unifiedpush.android.embedded_fcm_distributor.fcm
 
-import android.content.Context
 import android.content.Intent
 import android.util.Base64
 import android.util.Log
@@ -26,19 +25,18 @@ class FirebaseForwardingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         Log.d(TAG, "New Firebase message ${remoteMessage.messageId}")
         // The map can be used to allow applications keeping using their old gateway for FCM
-        val base64m = remoteMessage.data["b"] ?: return
-        val message = Base64.decode(base64m, Base64.DEFAULT)
-            ?: JSONObject(remoteMessage.data as Map<*, *>).toString().toByteArray()
-        val token = remoteMessage.data["i"]!!
-        if (getTokens(baseContext).contains(token)) {
-            val intent = Intent()
-            intent.action = ACTION_MESSAGE
-            intent.setPackage(baseContext.packageName)
-            intent.putExtra(EXTRA_MESSAGE, String(message))
-            intent.putExtra(EXTRA_BYTES_MESSAGE, message)
-            intent.putExtra(EXTRA_MESSAGE_ID, remoteMessage.messageId)
-            intent.putExtra(EXTRA_TOKEN, token)
-            baseContext.sendBroadcast(intent)
-        }
+        val message = remoteMessage.data["b"]?.let {
+            Base64.decode(it, Base64.DEFAULT)
+        } ?: JSONObject(remoteMessage.data as Map<*, *>).toString().toByteArray()
+        // Empty token can be used by app not using an UnifiedPush gateway.
+        val token = remoteMessage.data["i"] ?: ""
+        val intent = Intent()
+        intent.action = ACTION_MESSAGE
+        intent.setPackage(baseContext.packageName)
+        intent.putExtra(EXTRA_MESSAGE, String(message))
+        intent.putExtra(EXTRA_BYTES_MESSAGE, message)
+        intent.putExtra(EXTRA_MESSAGE_ID, remoteMessage.messageId)
+        intent.putExtra(EXTRA_TOKEN, token)
+        baseContext.sendBroadcast(intent)
     }
 }
