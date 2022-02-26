@@ -29,7 +29,7 @@ class FirebaseForwardingService : FirebaseMessagingService() {
             Base64.decode(it, Base64.DEFAULT)
         } ?: JSONObject(remoteMessage.data as Map<*, *>).toString().toByteArray()
         // Empty token can be used by app not using an UnifiedPush gateway.
-        val token = remoteMessage.data["i"] ?: ""
+        val token = remoteMessage.data["i"] ?: getTokens(applicationContext).last()
         val intent = Intent()
         intent.action = ACTION_MESSAGE
         intent.setPackage(baseContext.packageName)
