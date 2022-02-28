@@ -13,7 +13,7 @@
 
     <application>
         <service
-            android:name="org.unifiedpush.android.embedded_fcm_distributor.fcm.FirebaseRedirectionService"
+            android:name="org.unifiedpush.android.embedded_fcm_distributor.fcm.FirebaseForwardingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
