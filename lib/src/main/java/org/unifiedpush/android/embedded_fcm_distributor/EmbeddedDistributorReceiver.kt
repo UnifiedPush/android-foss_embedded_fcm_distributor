@@ -1,13 +1,12 @@
 package org.unifiedpush.android.embedded_fcm_distributor
 
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.google.firebase.messaging.FirebaseMessaging
 import org.unifiedpush.android.embedded_fcm_distributor.Utils.getFCMToken
 import org.unifiedpush.android.embedded_fcm_distributor.Utils.removeToken
-import org.unifiedpush.android.embedded_fcm_distributor.Utils.saveFCMToken
 import org.unifiedpush.android.embedded_fcm_distributor.Utils.saveToken
 import org.unifiedpush.android.embedded_fcm_distributor.Utils.sendNewEndpoint
 
@@ -17,6 +16,8 @@ open class EmbeddedDistributorReceiver : BroadcastReceiver() {
     open fun getEndpoint(context: Context, token: String, instance: String): String {
         return ""
     }
+
+    open val googleProjectNumber = "0000"
 
     override fun onReceive(context: Context, intent: Intent) {
         val token = intent.getStringExtra(EXTRA_TOKEN)!!
@@ -30,18 +31,7 @@ open class EmbeddedDistributorReceiver : BroadcastReceiver() {
                     sendNewEndpoint(context, it, token)
                     return
                 }
-                FirebaseMessaging.getInstance().token.addOnSuccessListener { fcmToken ->
-                    Log.d(TAG, "New FCMToken: $fcmToken")
-                    saveFCMToken(context, fcmToken)
-                    sendNewEndpoint(context, fcmToken, token)
-                }.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "Token successfully received")
-                    } else {
-                        Log.e(TAG, "FCMToken registration failed: " +
-                                "${task.exception?.localizedMessage}")
-                    }
-                }
+                registerFCM(context)
             }
             ACTION_UNREGISTER -> {
                 Log.d(TAG, "Fake Distributor unregister")
@@ -53,6 +43,25 @@ open class EmbeddedDistributorReceiver : BroadcastReceiver() {
                 context.sendBroadcast(broadcastIntent)
             }
         }
+    }
+
+    private fun registerFCM(context: Context) {
+        val intent = Intent(ACTION_FCM_TOKEN_REQUEST)
+        intent.setPackage(GSF_PACKAGE)
+        intent.putExtra(
+            EXTRA_APPLICATION_PENDING_INTENT,
+            PendingIntent.getBroadcast(
+                context,
+                0,
+                Intent(),
+                PendingIntent.FLAG_IMMUTABLE
+            )
+        )
+        intent.putExtra(EXTRA_SENDER, googleProjectNumber)
+        intent.putExtra(EXTRA_SUBTYPE, googleProjectNumber)
+        intent.putExtra(EXTRA_SCOPE, "*")
+        intent.putExtra(EXTRA_KID, KID_VALUE)
+        context.sendBroadcast(intent)
     }
 
     private fun saveGetEndpoint(context: Context) {
