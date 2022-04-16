@@ -1,14 +1,14 @@
-package org.unifiedpush.android.embedded_fcm_distributor
+package org.unifiedpush.android.foss_embedded_fcm_distributor
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import org.unifiedpush.android.embedded_fcm_distributor.Utils.getFCMToken
-import org.unifiedpush.android.embedded_fcm_distributor.Utils.removeToken
-import org.unifiedpush.android.embedded_fcm_distributor.Utils.saveToken
-import org.unifiedpush.android.embedded_fcm_distributor.Utils.sendNewEndpoint
+import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.getFCMToken
+import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.removeToken
+import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.saveToken
+import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.sendNewEndpoint
 
 private const val TAG = "UP-Embedded_distributor"
 

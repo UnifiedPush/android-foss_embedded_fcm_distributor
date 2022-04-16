@@ -16,7 +16,7 @@ jobs:
           git clone https://github.com/UnifiedPush/android-example example
           cd example
           sed -i -e '/delToDevFcm/d' -e 's-//toDevFcm//--' app/build.gradle settings.gradle
-          sed -i -e 's-//toDevFossFcm//--' example/app/src/fcm/java/org/unifiedpush/example/EmbeddedDistributor.kt
+          sed -i -e 's-//toDevFossFcm//--' -e 's/org.unifiedpush.android.embedded_fcm_distributor/org.unifiedpush.android.foss_embedded_fcm_distributor/' example/app/src/fcm/java/org/unifiedpush/example/EmbeddedDistributor.kt
           ./gradlew assembleFcm --stacktrace
       - uses: actions/upload-artifact@v2
         with:

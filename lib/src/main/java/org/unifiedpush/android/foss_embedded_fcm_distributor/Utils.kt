@@ -1,4 +1,4 @@
-package org.unifiedpush.android.embedded_fcm_distributor
+package org.unifiedpush.android.foss_embedded_fcm_distributor
 
 import android.content.Context
 import android.content.Intent

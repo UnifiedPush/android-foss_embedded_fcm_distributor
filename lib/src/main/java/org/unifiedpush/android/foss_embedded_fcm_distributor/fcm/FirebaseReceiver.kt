@@ -1,4 +1,4 @@
-package org.unifiedpush.android.embedded_fcm_distributor.fcm
+package org.unifiedpush.android.foss_embedded_fcm_distributor.fcm
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import org.json.JSONObject
-import org.unifiedpush.android.embedded_fcm_distributor.*
-import org.unifiedpush.android.embedded_fcm_distributor.Utils.getTokens
-import org.unifiedpush.android.embedded_fcm_distributor.Utils.saveFCMToken
-import org.unifiedpush.android.embedded_fcm_distributor.Utils.sendNewEndpoint
+import org.unifiedpush.android.foss_embedded_fcm_distributor.*
+import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.getTokens
+import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.saveFCMToken
+import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.sendNewEndpoint
 
 
 private const val TAG = "FirebaseReceiver"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.unifiedpush.android.embedded_fcm_distributor">
+    package="org.unifiedpush.android.foss_embedded_fcm_distributor">
 
     <queries>
         <intent>
@@ -12,7 +12,7 @@
     </queries>
 
     <application>
-        <receiver android:name=".fcm.FirebaseReceiver"
+        <receiver android:name="org.unifiedpush.android.foss_embedded_fcm_distributor.fcm.FirebaseReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
