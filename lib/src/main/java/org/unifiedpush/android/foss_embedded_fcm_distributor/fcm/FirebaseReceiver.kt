@@ -11,11 +11,16 @@ import org.unifiedpush.android.foss_embedded_fcm_distributor.*
 import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.getTokens
 import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.saveFCMToken
 import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.sendNewEndpoint
-
-
-private const val TAG = "FirebaseReceiver"
+import java.util.Timer
+import kotlin.collections.HashMap
+import kotlin.concurrent.schedule
 
 class FirebaseReceiver : BroadcastReceiver() {
+
+    companion object {
+        private const val TAG = "FirebaseReceiver"
+        private val pendingMessages = mutableMapOf<String, ByteArray>()
+    }
 
     private fun bundleToMap(extras: Bundle): Map<String, *> {
         val map: MutableMap<String, Any?> = HashMap()
@@ -43,20 +48,69 @@ class FirebaseReceiver : BroadcastReceiver() {
 
     private fun onMessageReceived(context: Context, remoteMessage: Bundle) {
         Log.d(TAG, "New Firebase message")
-        // The map can be used to allow applications keeping using their old gateway for FCM
-        val message = remoteMessage.getString("b")?.let {
-            Base64.decode(it, Base64.DEFAULT)
-        } ?: JSONObject(bundleToMap(remoteMessage)).toString().toByteArray()
         // Empty token can be used by app not using an UnifiedPush gateway.
         val token = remoteMessage.getString("i")
             ?: getTokens(context).last()
+
+        val messageId = remoteMessage.getString("google.message_id") ?: "null"
+
+        getMessage(remoteMessage)?.let { message ->
+            forwardMessage(context, token, message, messageId)
+        }
+    }
+
+    private fun forwardMessage(context: Context,
+                               token: String,
+                               message: ByteArray,
+                               messageId: String) {
         val intent = Intent()
         intent.action = ACTION_MESSAGE
         intent.setPackage(context.packageName)
         intent.putExtra(EXTRA_MESSAGE, String(message))
         intent.putExtra(EXTRA_BYTES_MESSAGE, message)
+        intent.putExtra(EXTRA_MESSAGE_ID, messageId)
         intent.putExtra(EXTRA_TOKEN, token)
         context.sendBroadcast(intent)
+    }
+
+    private fun getMessage(data: Bundle): ByteArray? {
+        var message: ByteArray? = null
+        data.getString("b")?.let { b64 ->
+            if (!Regex("^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$")
+                    .matches(b64)) {
+                // The map can be used to allow applications keeping using their old gateway for FCM
+                return JSONObject(bundleToMap(data)).toString().toByteArray()
+            }
+            data.getString("m")?.let { mId ->
+                data.getString("s")?.let { splitId ->
+                    if (pendingMessages.containsKey(mId)) {
+                        Log.d(TAG, "Found pending message")
+                        when (splitId) {
+                            "1" -> {
+                                message = Base64.decode(b64, Base64.DEFAULT) +
+                                        pendingMessages[mId]!!
+                            }
+                            "2" -> {
+                                message = pendingMessages[mId]!! +
+                                        Base64.decode(b64, Base64.DEFAULT)
+                            }
+                        }
+                        pendingMessages.remove(mId)
+                    } else {
+                        pendingMessages[mId] = Base64.decode(b64, Base64.DEFAULT)
+                        Timer().schedule(3000) {
+                            pendingMessages.remove(mId)
+                        }
+                    }
+                }
+            } ?: run {
+                return Base64.decode(b64, Base64.DEFAULT)
+            }
+        } ?: run {
+            // The map can be used to allow applications keeping using their old gateway for FCM
+            return JSONObject(bundleToMap(data)).toString().toByteArray()
+        }
+        return message
     }
 
     override fun onReceive(context: Context, intent: Intent) {

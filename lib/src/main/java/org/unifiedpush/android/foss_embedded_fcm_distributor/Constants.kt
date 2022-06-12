@@ -20,6 +20,7 @@ const val EXTRA_TOKEN = "token"
 const val EXTRA_ENDPOINT = "endpoint"
 const val EXTRA_MESSAGE = "message"
 const val EXTRA_BYTES_MESSAGE = "bytesMessage"
+const val EXTRA_MESSAGE_ID = "id"
 const val EXTRA_FCM_TOKEN = "FCMToken"
 const val EXTRA_GET_ENDPOINT = "getEndpoint"
 
