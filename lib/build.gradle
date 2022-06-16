@@ -15,7 +15,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 30
         versionCode 1
-        versionName "1.0.0-beta2"
+        versionName "1.0.0-beta3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -47,7 +47,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'org.unifiedpush.android'
                 artifactId = 'android-foss_embedded_fcm_distributor'
-                version = '1.0.0-beta2'
+                version = '1.0.0-beta3'
             }
         }
     }
