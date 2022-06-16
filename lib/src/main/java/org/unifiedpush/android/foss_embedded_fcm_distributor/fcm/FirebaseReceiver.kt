@@ -50,7 +50,7 @@ class FirebaseReceiver : BroadcastReceiver() {
         Log.d(TAG, "New Firebase message")
         // Empty token can be used by app not using an UnifiedPush gateway.
         val token = remoteMessage.getString("i")
-            ?: getTokens(context).last()
+            ?: getTokens(context).lastOrNull() ?: return
 
         val messageId = remoteMessage.getString("google.message_id") ?: "null"
 
