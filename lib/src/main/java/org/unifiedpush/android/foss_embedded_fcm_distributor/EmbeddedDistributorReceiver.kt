@@ -20,7 +20,7 @@ open class EmbeddedDistributorReceiver : BroadcastReceiver() {
     open val googleProjectNumber = "0000"
 
     override fun onReceive(context: Context, intent: Intent) {
-        val token = intent.getStringExtra(EXTRA_TOKEN)!!
+        val token = intent.getStringExtra(EXTRA_TOKEN) ?: return
         Log.d(TAG, "New intent for $token")
         when (intent.action) {
             ACTION_REGISTER -> {

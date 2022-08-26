@@ -85,15 +85,16 @@ class FirebaseReceiver : BroadcastReceiver() {
                 data.getString("s")?.let { splitId ->
                     if (pendingMessages.containsKey(mId)) {
                         Log.d(TAG, "Found pending message")
-                        when (splitId) {
+                        message = when (splitId) {
                             "1" -> {
-                                message = Base64.decode(b64, Base64.DEFAULT) +
-                                        pendingMessages[mId]!!
+                                Base64.decode(b64, Base64.DEFAULT) +
+                                        (pendingMessages[mId] ?: ByteArray(0))
                             }
                             "2" -> {
-                                message = pendingMessages[mId]!! +
+                                (pendingMessages[mId] ?: ByteArray(0)) +
                                         Base64.decode(b64, Base64.DEFAULT)
                             }
+                            else -> ByteArray(0)
                         }
                         pendingMessages.remove(mId)
                     } else {
