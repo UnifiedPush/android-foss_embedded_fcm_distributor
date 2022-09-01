@@ -9,7 +9,6 @@ import android.util.Log
 import org.json.JSONObject
 import org.unifiedpush.android.foss_embedded_fcm_distributor.*
 import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.getTokens
-import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.saveFCMToken
 import org.unifiedpush.android.foss_embedded_fcm_distributor.Utils.sendNewEndpoint
 import java.util.Timer
 import kotlin.collections.HashMap
@@ -38,11 +37,10 @@ class FirebaseReceiver : BroadcastReceiver() {
         return map
     }
 
-    private fun onNewToken(context: Context, FCMToken: String) {
-        Log.d(TAG, "New FCM token: $FCMToken")
-        saveFCMToken(context, FCMToken)
+    private fun onNewToken(context: Context, fcmToken: String) {
+        Log.d(TAG, "New FCM token: $fcmToken")
         getTokens(context).forEach {
-            sendNewEndpoint(context, FCMToken, it)
+            sendNewEndpoint(context, fcmToken, it)
         }
     }
 

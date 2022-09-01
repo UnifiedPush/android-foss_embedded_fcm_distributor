@@ -4,16 +4,6 @@ import android.content.Context
 import android.content.Intent
 
 object Utils {
-    fun getFCMToken(context: Context): String? {
-        val prefs = context.getSharedPreferences(PREF_MASTER, Context.MODE_PRIVATE)
-        return prefs.getString(EXTRA_FCM_TOKEN, null)
-    }
-
-    fun saveFCMToken(context: Context, token: String) {
-        val prefs = context.getSharedPreferences(PREF_MASTER, Context.MODE_PRIVATE)
-        prefs.edit().putString(EXTRA_FCM_TOKEN, token).commit()
-    }
-
     fun getTokens(context: Context): MutableSet<String> {
         val prefs = context.getSharedPreferences(PREF_MASTER, Context.MODE_PRIVATE)
         return prefs.getStringSet(PREF_MASTER_TOKENS, null)
@@ -25,7 +15,7 @@ object Utils {
         if (!tokens.contains(token)) {
             tokens.add(token)
             val prefs = context.getSharedPreferences(PREF_MASTER, Context.MODE_PRIVATE)
-            prefs.edit().putStringSet(PREF_MASTER_TOKENS, tokens).commit()
+            prefs.edit().putStringSet(PREF_MASTER_TOKENS, tokens).apply()
         }
     }
 
@@ -34,7 +24,7 @@ object Utils {
         if (tokens.contains(token)) {
             tokens.remove(token)
             val prefs = context.getSharedPreferences(PREF_MASTER, Context.MODE_PRIVATE)
-            prefs.edit().putStringSet(PREF_MASTER_TOKENS, tokens).commit()
+            prefs.edit().putStringSet(PREF_MASTER_TOKENS, tokens).apply()
         }
     }
 
