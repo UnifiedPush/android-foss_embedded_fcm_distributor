@@ -11,14 +11,11 @@ kotlin {
 }
 
 android {
-    compileSdk 33
-    buildToolsVersion '33.0.0'
+    compileSdk 34
 
     defaultConfig {
         minSdkVersion 16
-        targetSdk 33
-        versionCode 1
-        versionName "1.0.0-beta3"
+        targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
