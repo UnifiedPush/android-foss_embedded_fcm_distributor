@@ -6,6 +6,9 @@ plugins {
     id 'maven-publish'
 }
 
+kotlin {
+    jvmToolchain(17)
+}
 
 android {
     compileSdk 33
