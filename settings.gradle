@@ -1,2 +1,2 @@
 include ':lib'
-rootProject.name = "UnifiedPush Connector"
+rootProject.name = "UnifiedPush FOSS EFCMD"
