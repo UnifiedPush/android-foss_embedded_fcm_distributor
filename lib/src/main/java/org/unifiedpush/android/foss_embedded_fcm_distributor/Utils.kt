@@ -41,6 +41,19 @@ object Utils {
         context.sendBroadcast(broadcastIntent)
     }
 
+    fun sendRegistrationFailed(
+        context: Context,
+        connectionToken: String,
+        message: String,
+    ) {
+        val broadcastIntent = Intent()
+        broadcastIntent.`package` = context.packageName
+        broadcastIntent.action = ACTION_REGISTRATION_FAILED
+        broadcastIntent.putExtra(EXTRA_TOKEN, connectionToken)
+        broadcastIntent.putExtra(EXTRA_MESSAGE, message)
+        context.sendBroadcast(broadcastIntent)
+    }
+
     private fun getEndpoint(context: Context, fcmToken: String, instance: String): String? {
         val prefs = context.getSharedPreferences(PREF_MASTER, Context.MODE_PRIVATE)
         val ff = 0xff.toChar().toString()
