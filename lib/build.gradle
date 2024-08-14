@@ -48,6 +48,25 @@ dependencies {
 
 }
 
+def releaseGroupId = 'org.unifiedpush.android'
+def releaseArtifactId = 'foss_embedded_fcm_distributor'
+def releaseVersion = '1.0.0'
+
+tasks.register('printArtifactId') {
+    group 'Artifact Info'
+    doLast {
+        println("artifact=$releaseGroupId:$releaseArtifactId")
+    }
+}
+
+tasks.register("printVersion") {
+    group 'Artifact Info'
+    doLast {
+        println("version=$releaseVersion")
+    }
+}
+
+
 // jitpack build
 afterEvaluate {
     publishing {
@@ -58,9 +77,9 @@ afterEvaluate {
                 from components.release
 
                 // You can then customize attributes of the publication as shown below.
-                groupId = 'org.unifiedpush.android'
-                artifactId = 'android-foss_embedded_fcm_distributor'
-                version = '1.0.0-beta5'
+                groupId = releaseGroupId
+                artifactId = releaseArtifactId
+                version = releaseVersion
             }
         }
     }
