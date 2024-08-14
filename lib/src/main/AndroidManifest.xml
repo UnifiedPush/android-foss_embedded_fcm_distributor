@@ -9,6 +9,9 @@
             <action android:name="org.unifiedpush.android.distributor.UNREGISTER" />
         </intent>
     </queries>
+    <queries>
+        <package android:name="com.google.android.gms" />
+    </queries>
 
     <application>
         <receiver android:name="org.unifiedpush.android.foss_embedded_fcm_distributor.fcm.FirebaseReceiver"
