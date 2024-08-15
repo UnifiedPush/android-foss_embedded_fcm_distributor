@@ -1,0 +1,25 @@
+steps:
+    check:
+        image: runmymind/docker-android-sdk:latest
+        when:
+          branch: main
+          event: [push, pull_request, manual]
+        commands:
+          - git clone https://codeberg.org/UnifiedPush/android-example example
+          - cd ./example/
+          - sed -i -e '/delToDevFcm/d' -e 's-//toDevFcm//--' app/build.gradle settings.gradle
+          - sed -i -e 's-//toDevFossFcm//--' -e 's/org.unifiedpush.android.embedded_fcm_distributor/org.unifiedpush.android.foss_embedded_fcm_distributor/' app/src/fcm/java/org/unifiedpush/example/EmbeddedDistributor.kt
+          - ./gradlew assembleFcm --stacktrace
+          - mv app/build/outputs/apk/fcm/debug/app-fcm-debug.apk ../UP-Example-fcm.apk
+
+    upload:
+        image: codeberg.org/s1m/woodpecker-upload:latest
+        when:
+            branch: main
+            event: [push, pull_request, manual]
+        settings:
+            token:
+                from_secret: codeberg_token
+            file:
+                - UP-Example-fcm.apk
+            package: true
