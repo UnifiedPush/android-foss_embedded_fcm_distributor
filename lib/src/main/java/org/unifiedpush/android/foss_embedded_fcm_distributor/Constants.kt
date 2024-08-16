@@ -2,7 +2,7 @@ package org.unifiedpush.android.foss_embedded_fcm_distributor
 
 /**
  * Constants as defined on the specs
- * https://github.com/UnifiedPush/UP-spec/blob/main/specifications.md
+ * https://unifiedpush.org/developers/spec/android/
  */
 
 const val PREF_MASTER = "UP-embedded_fcm"
