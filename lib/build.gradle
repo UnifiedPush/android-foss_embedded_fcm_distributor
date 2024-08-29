@@ -1,8 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-
-    // for jitpack
     id 'maven-publish'
 }
 
@@ -49,7 +47,7 @@ dependencies {
 }
 
 def releaseGroupId = 'org.unifiedpush.android'
-def releaseArtifactId = 'foss_embedded_fcm_distributor'
+def releaseArtifactId = 'foss-embedded-fcm-distributor'
 def releaseVersion = '1.0.0'
 
 tasks.register('printArtifactId') {
@@ -66,13 +64,35 @@ tasks.register("printVersion") {
     }
 }
 
-
-// jitpack build
 afterEvaluate {
     publishing {
         publications {
             // Creates a Maven publication called "release".
             release(MavenPublication) {
+                pom {
+                    name = "$releaseGroupId:$releaseArtifactId"
+                    description = 'FOSS Embedded FCM Distributor'
+                    url = 'https://unifiedpush.org/developers/embedded_fcm/'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            name = 'S1m'
+                            email = 'git@sgougeon.fr'
+                            organization = 'UnifiedPush'
+                            organizationUrl = 'https://unifiedpush.org/'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:git://codeberg.org/UnifiedPush/android-foss_embedded_fcm_distributor.git'
+                        developerConnection = 'scm:git:ssh://codeberg.org:UnifiedPush/android-foss_embedded_fcm_distributor.git'
+                        url = 'https://codeberg.org/UnifiedPush/android-foss_embedded_fcm_distributor'
+                    }
+                }
                 // Applies the component for the release build variant.
                 from components.release
 
