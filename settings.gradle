@@ -1,2 +1,2 @@
-include ':lib'
+include ':foss_embedded_fcm_distributor'
 rootProject.name = "UnifiedPush FOSS EFCMD"

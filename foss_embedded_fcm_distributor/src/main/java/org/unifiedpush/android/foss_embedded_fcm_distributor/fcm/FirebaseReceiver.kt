@@ -14,9 +14,12 @@ import java.util.Timer
 import kotlin.collections.HashMap
 import kotlin.concurrent.schedule
 
+/**
+ * This receivers interacts with Google Services and receives FCM message. It is exposed by the library.
+ */
 class FirebaseReceiver : BroadcastReceiver() {
 
-    companion object {
+    private companion object {
         private const val TAG = "FirebaseReceiver"
         private val pendingMessages = mutableMapOf<String, ByteArray>()
     }

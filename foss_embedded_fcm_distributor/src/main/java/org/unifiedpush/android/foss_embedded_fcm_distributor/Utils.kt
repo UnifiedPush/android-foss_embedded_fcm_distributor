@@ -3,7 +3,7 @@ package org.unifiedpush.android.foss_embedded_fcm_distributor
 import android.content.Context
 import android.content.Intent
 
-object Utils {
+internal object Utils {
     fun getTokens(context: Context): MutableSet<String> {
         val prefs = context.getSharedPreferences(PREF_MASTER, Context.MODE_PRIVATE)
         return prefs.getStringSet(PREF_MASTER_TOKENS, null)
