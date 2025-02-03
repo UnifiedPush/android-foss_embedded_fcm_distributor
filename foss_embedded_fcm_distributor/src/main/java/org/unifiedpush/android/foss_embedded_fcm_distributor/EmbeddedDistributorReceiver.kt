@@ -52,7 +52,15 @@ private const val TAG = "UP-Embedded_distributor"
  * </receiver>
  * ```
  */
-open class EmbeddedDistributorReceiver : BroadcastReceiver() {
+abstract class EmbeddedDistributorReceiver : BroadcastReceiver() {
+
+    /**
+     *
+     * This library is deprecated in favor of [android-embedded_fcm_distributor](https://codeberg.org/UnifiedPush/android-embedded_fcm_distributor),
+     * which is now fully FOSS.
+     */
+    abstract val deprecationAcknowledged: Boolean
+
     /**
      * Returns the address of your FCM rewrite-proxy. You must override it.
      */

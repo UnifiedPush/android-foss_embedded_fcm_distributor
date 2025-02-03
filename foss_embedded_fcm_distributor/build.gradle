@@ -48,7 +48,7 @@ dependencies {
 
 def releaseGroupId = 'org.unifiedpush.android'
 def releaseArtifactId = 'foss-embedded-fcm-distributor'
-def releaseVersion = '1.0.0'
+def releaseVersion = '1.0.1-deprecated'
 
 tasks.register('printArtifactId') {
     group 'Artifact Info'
