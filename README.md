@@ -1,4 +1,9 @@
 # Embedded FCM Distributor
+
+**Deprecation note**: This version of the library has been deprecated in favor of [the main version](https://codeberg.org/UnifiedPush/android-embedded_fcm_distributor) which is now fully FOSS.
+
+<details>
+
 ![Release](https://jitpack.io/v/UnifiedPush/android-foss_embedded_fcm_distributor.svg)
 
 This is a library that can be used by an end user application to embedded a FCM distributor.
@@ -16,3 +21,5 @@ This project is funded through [NGI Zero Core](https://nlnet.nl/core), a fund es
 
 [<img src="https://codeberg.org/UnifiedPush/documentation/raw/branch/main/static/img/nlnet_banner.png" alt="NLnet foundation logo" width="20%" />](https://nlnet.nl)
 [<img src="https://codeberg.org/UnifiedPush/documentation/raw/branch/main/static/img/NGI0_tag.svg" alt="NGI Zero Logo" width="20%" />](https://nlnet.nl/core)
+
+</details>
